@@ -17,6 +17,13 @@ PassCode inicial do administrador: **0000** (troque em Gerenciar → Equipe).
 - **Idiomas:** português, inglês e espanhol.
 - **Dados:** backup completo, exportar e importar cardápio, mesas e equipe, e CSV de vendas. Na primeira abertura, importa sozinho os dados do sistema anterior (`coconut_pos_v013`) sem apagá-los.
 
+## Levar o inventário para o sistema novo
+
+Os dados ficam no navegador de cada aparelho, separados por endereço do site.
+
+- **Mesmo iPad e mesmo endereço do sistema antigo:** em **Gerenciar → Configurações → Backup e dados** aparece o aviso "Dados do sistema anterior encontrados neste aparelho". Toque em **Puxar dados**.
+- **Outro aparelho ou outro endereço:** use **Importar cardápio** (só os produtos) ou **Restaurar backup** (tudo), escolhendo o arquivo .json.
+
 ## Novidades da 3.2.0
 
 - **Cor por categoria:** a interface continua preto e branco, mas cada categoria ganha uma cor. Ela aparece nos cartões do cardápio, nos filtros, na comanda, na lista de produtos, nos cartões de Comandas (faixa com a mistura de categorias) e na Cozinha (a quantidade na cor da categoria). Emoji e foto voltam a aparecer coloridos.

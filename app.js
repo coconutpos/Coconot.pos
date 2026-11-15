@@ -4,7 +4,7 @@
    Funciona offline. Os dados ficam salvos no navegador de cada aparelho.
    ========================================================= */
 
-const VERSION = '3.2.0';
+const VERSION = '3.2.2';
 const KEY = 'coconut-pos-v2';            // dados do sistema
 const OLD_KEY = 'coconut_pos_v013';      // dados do sistema anterior (só leitura)
 const DEVICE = {                         // preferências de cada aparelho (não vão para o backup)
@@ -342,7 +342,7 @@ const DICT = {
     'Tipo de atendimento':'Service type','Escolher mesa':'Choose table','Tirar da mesa':'Remove from table','Cancelar comanda':'Cancel check','Nova comanda':'New check','Imprimir conta':'Print check',
     'Sim, foi aprovado':'Yes, approved','Cartão aprovado?':'Card approved?','Abrir caixa agora':'Open drawer now','Valor inicial (fundo de troco)':'Opening float','Registrar':'Record','Motivo':'Reason','Valor':'Amount',
     'Contar notas e moedas':'Count bills and coins','Digitar total':'Enter total','Esperado':'Expected','Contado':'Counted','Diferença':'Difference','Confirmar fechamento':'Confirm closing','Salvar conferência':'Save count',
-    'Exportar cardápio':'Export menu','Cores das categorias':'Category colors','Cada categoria tem uma cor no cardápio, nos filtros e na comanda. Toque em uma cor para trocar.':'Each category has a color on the menu, the filters and the check. Tap a color to change it.','Voltar às cores automáticas':'Back to automatic colors','Concluir':'Done','Nenhum produto cadastrado.':'No products yet.','Importar cardápio':'Import menu','Exportar mesas':'Export tables','Importar mesas':'Import tables','Exportar equipe':'Export team','Importar equipe':'Import team',
+    'Exportar cardápio':'Export menu','Dados do sistema anterior encontrados neste aparelho':'Data from the previous system found on this device','produtos':'products','o sistema antigo continua intacto':'the old system stays untouched','Puxar dados':'Bring data','Não há dados do sistema anterior neste aparelho.':'No data from the previous system on this device.','sistema anterior deste aparelho':'previous system on this device','Cores das categorias':'Category colors','Cada categoria tem uma cor no cardápio, nos filtros e na comanda. Toque em uma cor para trocar.':'Each category has a color on the menu, the filters and the check. Tap a color to change it.','Voltar às cores automáticas':'Back to automatic colors','Concluir':'Done','Nenhum produto cadastrado.':'No products yet.','Importar cardápio':'Import menu','Exportar mesas':'Export tables','Importar mesas':'Import tables','Exportar equipe':'Export team','Importar equipe':'Import team',
     'Operação':'Operation','Recomeçar':'Start over','Limpar vendas e caixa':'Clear sales and drawer','Apagar tudo (sistema vazio)':'Erase everything (empty system)','Sem vendas nesta data.':'No sales on this date.',
     'Nenhuma venda':'No sales','Nada encontrado':'Nothing found','Catálogo vazio':'Empty menu','Dados do sistema anterior importados: produtos, mesas, equipe e vendas.':'Previous system data imported: products, tables, team and sales.'
   },
@@ -374,7 +374,7 @@ const DICT = {
     'Tipo de atendimento':'Tipo de servicio','Escolher mesa':'Elegir mesa','Tirar da mesa':'Quitar de la mesa','Cancelar comanda':'Cancelar comanda','Nova comanda':'Nueva comanda','Imprimir conta':'Imprimir cuenta',
     'Sim, foi aprovado':'Sí, aprobado','Cartão aprovado?':'¿Tarjeta aprobada?','Abrir caixa agora':'Abrir caja ahora','Valor inicial (fundo de troco)':'Fondo inicial','Registrar':'Registrar','Motivo':'Motivo','Valor':'Monto',
     'Contar notas e moedas':'Contar billetes y monedas','Digitar total':'Ingresar total','Esperado':'Esperado','Contado':'Contado','Diferença':'Diferencia','Confirmar fechamento':'Confirmar cierre','Salvar conferência':'Guardar conteo',
-    'Cores das categorias':'Colores de las categorías','Cada categoria tem uma cor no cardápio, nos filtros e na comanda. Toque em uma cor para trocar.':'Cada categoría tiene un color en el menú, los filtros y la comanda. Toque un color para cambiarlo.','Voltar às cores automáticas':'Volver a los colores automáticos','Concluir':'Listo','Nenhum produto cadastrado.':'Ningún producto registrado.','Operação':'Operación','Recomeçar':'Empezar de nuevo','Sem vendas nesta data.':'Sin ventas en esta fecha.','Nenhuma venda':'Ninguna venta','Nada encontrado':'Nada encontrado','Catálogo vazio':'Menú vacío'
+    'Dados do sistema anterior encontrados neste aparelho':'Datos del sistema anterior encontrados en este equipo','produtos':'productos','o sistema antigo continua intacto':'el sistema antiguo queda intacto','Puxar dados':'Traer datos','Não há dados do sistema anterior neste aparelho.':'No hay datos del sistema anterior en este equipo.','sistema anterior deste aparelho':'sistema anterior de este equipo','Cores das categorias':'Colores de las categorías','Cada categoria tem uma cor no cardápio, nos filtros e na comanda. Toque em uma cor para trocar.':'Cada categoría tiene un color en el menú, los filtros y la comanda. Toque un color para cambiarlo.','Voltar às cores automáticas':'Volver a los colores automáticos','Concluir':'Listo','Nenhum produto cadastrado.':'Ningún producto registrado.','Operação':'Operación','Recomeçar':'Empezar de nuevo','Sem vendas nesta data.':'Sin ventas en esta fecha.','Nenhuma venda':'Ninguna venta','Nada encontrado':'Nada encontrado','Catálogo vazio':'Menú vacío'
   }
 };
 const T = s => (DICT[db.settings.language] || {})[s] || s;
@@ -490,7 +490,6 @@ function shell(body){
   const kq = db.kitchen.filter(k => k.status === 'new').length;
   const nav = m.role === 'kitchen' ? [['kds','Cozinha',I.chef]] : [['sale','Vender',I.sale],['floor','Salão',I.floor],['checks','Comandas',I.checks],['kds','Cozinha',I.chef],['admin','Gerenciar',I.admin]];
   return `<aside class="rail">
-    <div class="brand"><b>${esc(db.settings.storeName)} P.O.S</b><small>${esc(db.settings.subtitle || 'Restaurant system')}</small></div>
     ${nav.map(([id, l, ic]) => `<button class="nav ${ui.page === id ? 'on' : ''}" onclick="go('${id}')">${ic}<span>${l}</span>${id === 'checks' && n ? `<i class="badge">${n}</i>` : id === 'kds' && kq ? `<i class="badge">${kq}</i>` : ''}</button>`).join('')}
     <button class="me" onclick="logout()" title="Trocar usuário"><span class="av">${esc(initials(m.name))}</span><span class="who"><b>${esc(m.name)}</b><small>${T(ROLES[m.role])} · ${T('Sair')}</small></span>${I.logout}</button>
   </aside>
@@ -1556,6 +1555,7 @@ function adSettings(){
     <div>${printerCard()}
     <section class="card pad22" style="margin-top:14px"><div class="h2" style="margin-bottom:6px">${T('Backup e dados')}</div>
       <p class="muted small" style="margin-bottom:14px;line-height:1.6">${T('Os dados ficam salvos neste aparelho. Faça backup com frequência e use o arquivo para levar tudo para outro aparelho. Também aceita backups do sistema anterior.')}</p>
+      ${oldData() ? `<div class="old-data"><div><b>${T('Dados do sistema anterior encontrados neste aparelho')}</b><small>${oldData().items.length} ${T('produtos')} · ${T('o sistema antigo continua intacto')}</small></div><button class="btn pri" onclick="pullOld()">${I.download} ${T('Puxar dados')}</button></div>` : ''}
       <div class="grid2">
         <button class="btn" onclick="exportBackup()">${I.download} ${T('Baixar backup completo')}</button>
         <label class="btn">${I.upload} ${T('Restaurar backup')}<input type="file" accept=".json,application/json" hidden onchange="readJSON(this,importBackup)"></label>
@@ -1591,6 +1591,12 @@ function eraseAll(){
   ask(T('Apagar tudo?'), T('Volta o sistema ao estado de fábrica, sem produtos nem mesas. O PassCode volta a ser 0000. Faça um backup antes.'), T('Apagar tudo'), () => requireManager(() => { db = fresh(false); save(); logout(); }), true);
 }
 function exportBackup(){ download(`coconut-backup-${today()}.json`, JSON.stringify({...db, exportedAt:nowISO(), app:'coconut-pos', version:VERSION}, null, 1)); toast('Backup baixado', 'download'); }
+/* dados do sistema anterior guardados neste mesmo aparelho/endereço (só leitura) */
+function oldData(){ try { const o = JSON.parse(localStorage.getItem(OLD_KEY)); return o && Array.isArray(o.items) && o.items.length ? o : null; } catch (e) { return null; } }
+function pullOld(){
+  const o = oldData(); if (!o) { toast(T('Não há dados do sistema anterior neste aparelho.'), 'alert'); return; }
+  importBackup(o, T('sistema anterior deste aparelho'));
+}
 function importBackup(d, name){
   if (!d || !Array.isArray(d.items)) throw new Error(T('Arquivo de backup inválido.'));
   const next = isOldFormat(d) ? convertOld(d) : normalize(d);

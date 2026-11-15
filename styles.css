@@ -603,3 +603,5 @@ table.tbl{width:100%;border-collapse:collapse}
 /* cozinha: quantidade na cor da categoria (o cozinheiro acha bebidas, pratos etc. de relance) */
 .kt li.hue>b{background:hsl(var(--h) 85% 64%);color:#000}
 .kt li.hue.done>b{background:var(--panel3);color:var(--muted)}
+.old-data{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;margin-bottom:12px;border-radius:14px;border:1px solid #fff;background:#ffffff0d;flex-wrap:wrap}
+.old-data b{display:block;font-size:13.5px}.old-data small{color:var(--muted);font-size:12px}

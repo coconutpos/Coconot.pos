@@ -1,7 +1,7 @@
 /* Coconut P.O.S — modo offline.
    Arquivos do próprio site: tenta a rede primeiro (pega atualizações do deploy) e usa a cópia guardada sem internet.
    Fontes do Google: usa a cópia guardada. Nada mais é interceptado (a impressora Star é chamada direto). */
-const CACHE = 'coconut-pos-3.2.0';
+const CACHE = 'coconut-pos-3.2.2';
 const ASSETS = ['./', './index.html', './styles.css', './app.js', './logo.webp', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
