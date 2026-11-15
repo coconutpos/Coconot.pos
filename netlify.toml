@@ -1,0 +1,28 @@
+# Site estático: não precisa de build. O Netlify publica a raiz do repositório.
+[build]
+  publish = "."
+  command = ""
+
+# O service worker e a página principal sempre buscam a versão mais nova.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "same-origin"
+
+# Ferramentas de desenvolvimento não vão para o ar.
+[[redirects]]
+  from = "/tools/*"
+  to = "/404"
+  status = 404
+  force = true
